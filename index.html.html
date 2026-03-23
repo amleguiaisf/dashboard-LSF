@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Diagnóstico — Lideresas Sin Fronteras</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Actor&family=DM+Serif+Display&display=swap');
+
+  :root {
+    --blue: #64A7DB;
+    --blue-dark: #3d7faf;
+    --navy: #1F3864;
+    --lime: #BEC625;
+    --lime-pale: #f4f6c8;
+    --bg: #F6F7F9;
+    --white: #ffffff;
+    --text: #1e2535;
+    --muted: #8492a6;
+    --border: #e4e8ef;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Actor', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+  header {
+    background: var(--navy); padding: 24px 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    border-bottom: 3px solid var(--lime);
+  }
+  .header-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: #fff; font-weight: 400; }
+  .header-left p { color: rgba(255,255,255,0.45); font-size: 0.74rem; margin-top: 3px; }
+  .header-badge { background: var(--lime); color: var(--navy); font-size: 0.71rem; font-weight: 600; padding: 5px 12px; border-radius: 4px; letter-spacing: 0.04em; }
+
+  nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; overflow-x: auto; }
+  nav button {
+    background: none; border: none; color: var(--muted); font-family: 'Actor', sans-serif;
+    font-size: 0.77rem; font-weight: 500; padding: 12px 15px; cursor: pointer;
+    border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s;
+  }
+  nav button:hover { color: var(--text); }
+  nav button.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+
+  .legend { display: flex; gap: 18px; align-items: center; padding: 9px 40px; background: var(--white); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.74rem; color: var(--muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+  .legend-note { font-size: 0.71rem; color: var(--border); margin-left: auto; }
+
+  main { padding: 28px 40px; max-width: 1280px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .kpi { background: var(--white); border-radius: 7px; padding: 16px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--border); }
+  .kpi.hl { border-left-color: var(--lime); }
+  .kpi.hl2 { border-left-color: var(--blue); }
+  .kpi .val { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--navy); line-height: 1; }
+  .kpi .lbl { font-size: 0.68rem; color: var(--muted); margin-top: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 14px; }
+
+  .card { background: var(--white); border-radius: 7px; padding: 20px 22px; box-shadow: var(--shadow); }
+  .card h3 { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; }
+  .card h3 span { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--border); margin-left: 4px; }
+
+  .bar-compare { display: flex; flex-direction: column; gap: 12px; }
+  .bar-label { font-size: 0.77rem; color: var(--text); margin-bottom: 4px; font-weight: 500; display: flex; justify-content: space-between; }
+  .bar-label span { font-weight: 400; color: var(--muted); font-size: 0.72rem; }
+  .bar-track { background: var(--bg); border-radius: 3px; overflow: hidden; height: 5px; margin-bottom: 3px; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.7s ease; }
+  .bar-fill.all { background: var(--blue); }
+  .bar-fill.young { background: var(--lime); }
+  .bar-double { display: flex; gap: 5px; }
+  .bar-double .bar-track { flex: 1; }
+
+  .insight-box { background: var(--bg); border-left: 3px solid var(--lime); border-radius: 0 5px 5px 0; padding: 11px 13px; margin-bottom: 9px; }
+  .insight-box .tag { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy); margin-bottom: 3px; }
+  .insight-box p { font-size: 0.79rem; color: var(--text); line-height: 1.55; }
+  .insight-box.red { background: #fff5f5; border-color: #d94f4f; }
+  .insight-box.red .tag { color: #b83030; }
+  .insight-box.blue { background: #f0f6fc; border-color: var(--blue); }
+  .insight-box.blue .tag { color: var(--blue-dark); }
+
+  .quotes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+  .quote { background: var(--bg); border-radius: 5px; padding: 13px 15px; font-size: 0.79rem; line-height: 1.55; color: var(--text); border-left: 2px solid var(--lime); }
+  .quote .qtag { font-size: 0.63rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 7px; }
+
+  .donut-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .donut-wrap { width: 110px; height: 110px; flex-shrink: 0; }
+  .donut-legend { flex: 1; min-width: 130px; }
+  .donut-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.77rem; margin-bottom: 6px; }
+  .donut-swatch { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  .questions-list { display: flex; flex-direction: column; gap: 10px; }
+  .q-item { background: var(--white); border-radius: 7px; padding: 16px 20px; box-shadow: var(--shadow); }
+  .q-item .q-category { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); margin-bottom: 5px; }
+  .q-item .q-text { font-size: 0.87rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; line-height: 1.4; }
+  .q-item .q-rationale { font-size: 0.77rem; color: var(--muted); line-height: 1.55; }
+
+  @media(max-width:700px) {
+    header, nav, main, .legend { padding-left: 16px; padding-right: 16px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Diagnóstico Lideresas Sin Fronteras</h1>
+    <p>ISF Chile · 22 marzo 2026 · Solo respondentes autorizadas</p>
+  </div>
+  <div class="header-badge">308 respuestas</div>
+</header>
+
+<nav id="nav">
+  <button class="active" onclick="showSection('resumen')">Resumen</button>
+  <button onclick="showSection('barreras')">Barreras</button>
+  <button onclick="showSection('liderazgo')">Liderazgo</button>
+  <button onclick="showSection('programa')">Programa</button>
+  <button onclick="showSection('joven')">Segmento Joven ≤25</button>
+  <button onclick="showSection('preguntas')">Guía Entrevistas</button>
+</nav>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Total muestra (308)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--lime)"></div> Segmento joven ≤25 (74)</div>
+  <span class="legend-note">Likert 1–5 · % sobre respuestas válidas</span>
+</div>
+
+<main>
+
+<!-- RESUMEN -->
+<section id="resumen" class="section active">
+  <div class="kpi-row">
+    <div class="kpi hl"><div class="val">308</div><div class="lbl">Respuestas válidas</div></div>
+    <div class="kpi hl2"><div class="val">74</div><div class="lbl">Segmento joven ≤25</div></div>
+    <div class="kpi hl"><div class="val">67%</div><div class="lbl">Interés confirmado</div></div>
+    <div class="kpi hl2"><div class="val">3.87</div><div class="lbl">Prob. participar /5</div></div>
+    <div class="kpi"><div class="val">61%</div><div class="lbl">Sin mentora previa</div></div>
+    <div class="kpi"><div class="val">4.02</div><div class="lbl">Seguridad liderazgo /5</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Etapa de trayectoria</h3><div style="position:relative"><canvas id="ch-etapa" height="200"></canvas></div></div>
+    <div class="card"><h3>Área de ingeniería</h3><div style="position:relative"><canvas id="ch-area" height="200"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Relación con ISF Chile</h3><div style="position:relative"><canvas id="ch-isf" height="185"></canvas></div></div>
+    <div class="card"><h3>Etapas donde percibieron impacto de género</h3><div style="position:relative"><canvas id="ch-etapas-impacto" height="185"></canvas></div></div>
+  </div>
+  <div class="grid-3">
+    <div class="card"><h3>Interés en el programa</h3>
+      <div class="donut-row"><div class="donut-wrap"><canvas id="ch-interes-all"></canvas></div><div class="donut-legend" id="leg-interes-all"></div></div></div>
+    <div class="card"><h3>Acceso a mentorías</h3>
+      <div class="donut-row"><div class="donut-wrap"><canvas id="ch-mentorias-all"></canvas></div><div class="donut-legend" id="leg-mentorias-all"></div></div></div>
+    <div class="card"><h3>¿Sería mentora futura?</h3>
+      <div class="donut-row"><div class="donut-wrap"><canvas id="ch-mentora-all"></canvas></div><div class="donut-legend" id="leg-mentora-all"></div></div></div>
+  </div>
+</section>
+
+<!-- BARRERAS -->
+<section id="barreras" class="section">
+  <div class="grid-2">
+    <div class="card"><h3>Dificultades en trayectoria <span>· promedio 1–5 · joven vs total</span></h3><div class="bar-compare" id="dif-compare"></div></div>
+    <div class="card"><h3>Barreras para participar</h3><div style="position:relative"><canvas id="ch-barreras" height="210"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Factores de desmotivación <span>· temas en texto abierto</span></h3><div id="temas-desm"></div></div>
+    <div class="card"><h3>Etapas con mayor impacto negativo por género</h3><div style="position:relative"><canvas id="ch-etapas2" height="210"></canvas></div></div>
+  </div>
+</section>
+
+<!-- LIDERAZGO -->
+<section id="liderazgo" class="section">
+  <div class="kpi-row">
+    <div class="kpi hl2"><div class="val">4.02</div><div class="lbl">Seguridad · Total</div></div>
+    <div class="kpi"><div class="val">3.69</div><div class="lbl">Seguridad · Joven</div></div>
+    <div class="kpi hl2"><div class="val">3.77</div><div class="lbl">Preparación · Total</div></div>
+    <div class="kpi"><div class="val">3.08</div><div class="lbl">Preparación · Joven ↓</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Seguridad liderando <span>· distribución 1–5</span></h3><div style="position:relative"><canvas id="ch-seg" height="210"></canvas></div></div>
+    <div class="card"><h3>Áreas a fortalecer <span>· % respondentes · joven vs total</span></h3><div class="bar-compare" id="areas-compare"></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Apoyo más valioso</h3><div style="position:relative"><canvas id="ch-apoyo" height="210"></canvas></div></div>
+    <div class="card"><h3>Experiencias de aprendizaje preferidas</h3><div style="position:relative"><canvas id="ch-exp" height="210"></canvas></div></div>
+  </div>
+</section>
+
+<!-- PROGRAMA -->
+<section id="programa" class="section">
+  <div class="kpi-row">
+    <div class="kpi hl2"><div class="val">3.87</div><div class="lbl">Prob. participar · Total /5</div></div>
+    <div class="kpi"><div class="val">3.79</div><div class="lbl">Prob. participar · Joven</div></div>
+    <div class="kpi hl"><div class="val">61%</div><div class="lbl">Prefiere Híbrido</div></div>
+    <div class="kpi hl"><div class="val">54%</div><div class="lbl">Prefiere 2–3 meses</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Probabilidad de participar activamente</h3><div style="position:relative"><canvas id="ch-prob" height="210"></canvas></div></div>
+    <div class="card"><h3>Formato preferido</h3><div style="position:relative"><canvas id="ch-formato" height="210"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Duración preferida</h3><div style="position:relative"><canvas id="ch-duracion" height="185"></canvas></div></div>
+    <div class="card"><h3>Cambio más significativo esperado <span>· temas en texto abierto</span></h3><div id="temas-cambio"></div></div>
+  </div>
+</section>
+
+<!-- JOVEN -->
+<section id="joven" class="section">
+  <div class="insight-box blue" style="margin-bottom:16px;">
+    <div class="tag">Segmento analizado</div>
+    <p><strong>74 respondentes autorizadas</strong> · mujeres ≤25 años · Estudiante (primeros y últimos años) + Egresada reciente. Representan el <strong>24% del total</strong>.</p>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi hl"><div class="val">74</div><div class="lbl">Respondentes</div></div>
+    <div class="kpi"><div class="val">3.69</div><div class="lbl">Seguridad liderazgo</div></div>
+    <div class="kpi"><div class="val">3.08</div><div class="lbl">Preparación percibida</div></div>
+    <div class="kpi hl2"><div class="val">62%</div><div class="lbl">Interés confirmado</div></div>
+    <div class="kpi"><div class="val">51%</div><div class="lbl">Sin mentora previa</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Temas dominantes en texto abierto</h3><div id="temas-joven"></div></div>
+    <div class="card"><h3>Dificultades percibidas <span>· joven ≤25 vs total</span></h3><div class="bar-compare" id="dif-joven"></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Etapas con mayor impacto negativo</h3><div style="position:relative"><canvas id="ch-etapas-young" height="185"></canvas></div></div>
+    <div class="card"><h3>Apoyo más valioso · Joven</h3><div style="position:relative"><canvas id="ch-apoyo-young" height="185"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Experiencias de aprendizaje · Joven</h3><div style="position:relative"><canvas id="ch-exp-young" height="185"></canvas></div></div>
+    <div class="card"><h3>Áreas a fortalecer · Joven <span>· % respondentes</span></h3><div style="position:relative"><canvas id="ch-areas-young" height="185"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-top:4px;">
+    <h3>Cambio esperado al terminar el programa <span>· respuestas del segmento joven</span></h3>
+    <div class="quotes-grid" id="quotes-cambio"></div>
+  </div>
+</section>
+
+<!-- ENTREVISTAS -->
+<section id="preguntas" class="section">
+  <div class="insight-box blue" style="margin-bottom:18px;">
+    <div class="tag">Propósito</div>
+    <p>Preguntas para entrevistas de profundización conducidas por una practicante. Solo contactar personas que autorizaron contacto y dejaron mail: <strong>276 total, 65 jóvenes ≤25</strong>. Ver documento "Guía de Entrevistas" para el protocolo completo.</p>
+  </div>
+  <div class="questions-list">
+    <div class="q-item"><div class="q-category">Síndrome del impostor</div><div class="q-text">¿En qué situaciones concretas sientes que tu competencia es cuestionada —por otros o por ti misma— de forma que no ocurriría si fueras hombre?</div><div class="q-rationale">La confianza es el cambio más deseado (48% del segmento joven), pero no sabemos si la barrera es interna o externa. Eso cambia el módulo a diseñar.</div></div>
+    <div class="q-item"><div class="q-category">Redes de apoyo</div><div class="q-text">¿Tienes una red de compañeras ingenieras con quienes hablar de dificultades profesionales o académicas? ¿Con qué frecuencia la activas?</div><div class="q-rationale">Múltiples respuestas mencionan "falta de red de amistad que empodere". Define si el programa crea comunidad desde cero o potencia algo existente.</div></div>
+    <div class="q-item"><div class="q-category">Referentes</div><div class="q-text">¿Qué características tendría tu referente ideal? No el cargo — sino cómo es ella, cómo lidera, cómo combina su vida personal y profesional.</div><div class="q-rationale">Varias señalan que no quieren modelos de "éxito clásico". Orienta el perfil de lideresas invitadas al programa.</div></div>
+    <div class="q-item"><div class="q-category">Experiencias adversas</div><div class="q-text">¿Has vivido alguna situación de acoso, discriminación o exclusión? ¿Contaste con mecanismo de apoyo institucional? (opcional)</div><div class="q-rationale">Al menos 3 respuestas describen situaciones graves. Orienta si el programa necesita módulo de acompañamiento emocional.</div></div>
+    <div class="q-item"><div class="q-category">Liderazgo técnico</div><div class="q-text">Cuando propones una solución técnica en equipo mixto, ¿sientes que tu opinión tiene el mismo peso que el de tus pares hombres? ¿Puedes dar un ejemplo?</div><div class="q-rationale">No está claro si la barrera es interna (falta seguridad para hablar) o externa (ser ignorada aunque hable). Son problemas distintos.</div></div>
+    <div class="q-item"><div class="q-category">Diseño del programa</div><div class="q-text">¿Preferirías cohortes cerradas (mismo grupo de inicio a fin) o formato abierto donde puedes entrar y salir?</div><div class="q-rationale">El formato y duración están claros, pero el modelo de cohesión del grupo no fue preguntado. La red que se forme depende de esto.</div></div>
+    <div class="q-item"><div class="q-category">Interseccionalidad</div><div class="q-text">¿Hay alguna condición adicional —primera generación universitaria, ser de región, maternidad, pueblos originarios— que haya amplificado las dificultades que describes?</div><div class="q-rationale">Varias mencionan ser "primera universitaria en la familia" o "de otra región". Permite mayor pertinencia sociocultural del programa.</div></div>
+    <div class="q-item"><div class="q-category">Impacto esperado</div><div class="q-text">Imagina que terminaste el programa hace 6 meses. ¿Cuál es la primera situación en que notarías que algo cambió en ti?</div><div class="q-rationale">Fuerza situaciones concretas que pueden convertirse en métricas de impacto reales.</div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+const C = { blue:'#64A7DB', blueDark:'#3d7faf', lime:'#BEC625', navy:'#1F3864', muted:'#8492a6', bg:'#F6F7F9' };
+
+Chart.defaults.font.family = 'Actor';
+Chart.defaults.color = '#8492a6';
+
+const gridStyle = { color:'#eef0f4', drawBorder:false };
+const tickStyle = { font:{ size:11 } };
+const borderOff = { display:false };
+const defaultScales = {
+  x:{ grid:gridStyle, ticks:tickStyle, border:borderOff },
+  y:{ grid:gridStyle, ticks:tickStyle, border:borderOff }
+};
+
+function mkChart(id, type, labels, datasets, opts={}) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  return new Chart(ctx, {
+    type, data:{ labels, datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ display:opts.legend??false, position:'bottom', labels:{ font:{size:11}, padding:14, boxWidth:10, boxHeight:10 } },
+        tooltip:{ backgroundColor:'#1e2535', padding:10, cornerRadius:5 }
+      },
+      scales: opts.scales !== undefined ? opts.scales : (type==='bar' ? (opts.horizontal ? { x:{...defaultScales.x}, y:{...defaultScales.y} } : defaultScales) : {}),
+      indexAxis: opts.horizontal ? 'y' : 'x',
+      ...opts.extra
+    }
+  });
+}
+
+function donut(canvasId, legendId, data, colors) {
+  const labels=Object.keys(data), vals=Object.values(data), total=vals.reduce((a,b)=>a+b,0);
+  mkChart(canvasId,'doughnut',labels,[{ data:vals, backgroundColor:colors, borderWidth:3, borderColor:'#fff', hoverOffset:3 }],
+    { legend:false, scales:{}, extra:{ cutout:'68%' } });
+  const lg=document.getElementById(legendId);
+  if(lg) lg.innerHTML=labels.map((l,i)=>
+    `<div class="donut-legend-item"><div class="donut-swatch" style="background:${colors[i]}"></div><span>${l} <strong>${Math.round(vals[i]/total*100)}%</strong></span></div>`
+  ).join('');
+}
+
+function barCompare(id, labels, allV, youngV, max=5, sfx='') {
+  const el=document.getElementById(id); if(!el) return;
+  el.innerHTML=labels.map((lbl,i)=>{
+    const a=allV[i], y=youngV[i], ap=Math.round(a/max*100), yp=Math.round(y/max*100);
+    return `<div class="bar-item"><div class="bar-label">${lbl} <span>${a}${sfx} · ${y}${sfx}</span></div>
+    <div class="bar-double"><div class="bar-track"><div class="bar-fill all" style="width:${ap}%"></div></div>
+    <div class="bar-track"><div class="bar-fill young" style="width:${yp}%"></div></div></div></div>`;
+  }).join('');
+}
+
+function themes(id, items) {
+  const el=document.getElementById(id); if(!el) return;
+  el.innerHTML=items.map(t=>`<div class="insight-box"><div class="tag">${t.tag}</div><p>${t.text}</p></div>`).join('');
+}
+
+function quotes(id, qs) {
+  const el=document.getElementById(id); if(!el) return;
+  el.innerHTML=qs.map(q=>`<div class="quote"><p>${q}</p><div class="qtag">Segmento ≤25</div></div>`).join('');
+}
+
+const bp = { borderRadius:4, barPercentage:0.58 };
+
+// RESUMEN
+mkChart('ch-etapa','bar',['Senior >10a','Exp. 3–10a','Egresada 0–3a','Est. últimos','Est. primeros'],
+  [{ data:[105,85,55,34,29], backgroundColor:C.blue, ...bp }]);
+mkChart('ch-area','bar',['Civil','Industrial','Ambiental','Eléctrica','Química','Informática'],
+  [{ data:[79,78,22,19,8,4], backgroundColor:C.blue, ...bp }]);
+mkChart('ch-isf','bar',['No conocía','Solo conozco','Voluntaria','Ex-participante','Aliada'],
+  [{ data:[177,107,8,6,6], backgroundColor:C.blue, ...bp }],{ horizontal:true });
+mkChart('ch-etapas-impacto','bar',['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
+  [{ data:[155,150,88,73,48], backgroundColor:C.blue, ...bp }]);
+
+donut('ch-interes-all','leg-interes-all',{Sí:206,'Tal vez':93,No:9},[C.lime,C.blue,C.muted]);
+donut('ch-mentorias-all','leg-mentorias-all',{No:188,Sí:120},[C.blue,C.lime]);
+donut('ch-mentora-all','leg-mentora-all',{Sí:174,'Tal vez':115,No:10},[C.lime,C.blue,C.muted]);
+
+// BARRERAS
+barCompare('dif-compare',
+  ['Ambientes masculinizados','Discriminación/sexismo','Falta de referentes','Baja confianza','Ejercer liderazgo','Acceso oportunidades'],
+  [3.68,3.18,3.18,3.07,2.92,2.85],[3.59,2.89,3.19,3.19,2.69,2.28]);
+mkChart('ch-barreras','bar',['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],
+  [{ label:'Total', data:[152,78,44,10], backgroundColor:C.blue, ...bp },
+   { label:'Joven', data:[38,29,4,0], backgroundColor:C.lime, ...bp }],{ legend:true });
+themes('temas-desm',[
+  { tag:'Tema dominante · Referentes y soledad', text:'La <strong>falta de referentes femeninas</strong> es el tema más citado. Vinculado al síndrome del impostor: sin ver mujeres que lo lograron, es difícil proyectarse.' },
+  { tag:'Tema dominante · Ambientes hostiles', text:'Comentarios machistas de compañeros y profesores, "club de chicos" y cuestionamiento constante de capacidades. Afecta especialmente en la formación académica.' },
+  { tag:'Tema relevante · Maternidad (mujeres mayores)', text:'En el grupo total, la maternidad y conciliación vida–trabajo es el factor más mencionado. Barrera estructural con respuesta distinta en el programa.' },
+  { tag:'Señal de alerta', text:'Al menos <strong>3 respuestas describen situaciones de acoso o violencia</strong> con protocolos institucionales ineficaces. Considerar módulo de acompañamiento.' }
+]);
+mkChart('ch-etapas2','bar',['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
+  [{ data:[155,150,88,73,48], backgroundColor:C.blue, ...bp }],{ horizontal:true });
+
+// LIDERAZGO
+mkChart('ch-seg','bar',['1','2','3','4','5'],
+  [{ label:'Total', data:[4,16,59,120,109], backgroundColor:C.blue, ...bp },
+   { label:'Joven ≤25', data:[1,6,21,33,13], backgroundColor:C.lime, ...bp }],{ legend:true });
+barCompare('areas-compare',
+  ['Confianza/seguridad','Comunicación efectiva','Toma de decisiones','Gestión proyectos','Resolución conflictos','Liderazgo técnico','Trabajo en equipo'],
+  [49.0,51.3,47.4,46.8,44.5,43.5,26.0],[59.5,56.8,56.8,50.0,39.2,35.1,32.4],100,'%');
+mkChart('ch-apoyo','bar',['Redes contacto','Mentorías','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
+  [{ data:[256,224,150,146,109], backgroundColor:C.blue, ...bp }]);
+mkChart('ch-exp','bar',['Proyectos reales','Visitas terreno','Red activa','Mentorías 1:1','Talleres prácticos','Pares','Shadowing','Charlas'],
+  [{ data:[188,188,162,156,141,130,108,85], backgroundColor:C.blue, ...bp }],{ horizontal:true });
+
+// PROGRAMA
+mkChart('ch-prob','bar',['1','2','3','4','5'],
+  [{ label:'Total', data:[1,15,91,106,86], backgroundColor:C.blue, ...bp },
+   { label:'Joven', data:[0,4,24,28,17], backgroundColor:C.lime, ...bp }],{ legend:true });
+mkChart('ch-formato','bar',['Híbrido','Online','Presencial'],
+  [{ label:'Total', data:[189,78,32], backgroundColor:C.blue, ...bp },
+   { label:'Joven', data:[46,16,11], backgroundColor:C.lime, ...bp }],{ legend:true });
+mkChart('ch-duracion','bar',['2–3 meses','1 mes','4–6 meses'],
+  [{ label:'Total', data:[167,73,55], backgroundColor:C.blue, ...bp },
+   { label:'Joven', data:[45,21,6], backgroundColor:C.lime, ...bp }],{ legend:true });
+themes('temas-cambio',[
+  { tag:'Tema dominante · Confianza propia', text:'En casi la mitad de las respuestas. "Más confianza", "eliminar síndrome del impostor", "sentirme capaz". Expectativa central del programa.' },
+  { tag:'Tema 2 · Red de contactos', text:'"Conocer ingenieras", "redes de apoyo", "contacto con lideresas". El valor relacional es tan importante como los contenidos.' },
+  { tag:'Tema 3 · Comunicación y hablar en público', text:'"Hablar en público con seguridad", "comunicación efectiva". Módulo concreto con alta demanda.' }
+]);
+
+// JOVEN
+themes('temas-joven',[
+  { tag:'1 · Síndrome del impostor', text:'Presente en más de 15 respuestas. "Creer que no pertenezco", "miedo a parecer menos inteligente". Barrera psicológica central del segmento.' },
+  { tag:'2 · Ambientes hostiles en la universidad', text:'El problema ocurre principalmente en la <strong>sala de clases</strong>: comentarios sexistas de profesores, "club de chicos", ausencia de profesoras.' },
+  { tag:'3 · Falta de referentes en la academia', text:'"En 3 años tuve una sola profesora." Barrera de pertenencia más que de orientación.' },
+  { tag:'4 · Aislamiento entre compañeras', text:'Algunas mencionan que incluso compañeras reproducen comentarios machistas. La falta de red femenina amplifica la soledad.' }
+]);
+barCompare('dif-joven',
+  ['Ambientes masculinizados','Baja confianza','Falta de referentes','Discriminación/sexismo','Ejercer liderazgo','Acceso oportunidades'],
+  [3.68,3.07,3.18,3.18,2.92,2.85],[3.59,3.19,3.19,2.89,2.69,2.28]);
+mkChart('ch-etapas-young','bar',['Formación acad.','Sin impacto','Prácticas','Desarrollo prof.','Primer empleo'],
+  [{ data:[43,21,14,7,5], backgroundColor:C.lime, ...bp }]);
+mkChart('ch-apoyo-young','bar',['Redes contacto','Mentorías','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
+  [{ data:[63,58,56,49,32], backgroundColor:C.lime, ...bp }]);
+mkChart('ch-exp-young','bar',['Visitas terreno','Proyectos reales','Talleres prácticos','Pares','Mentorías 1:1','Red activa','Charlas','Shadowing'],
+  [{ data:[58,53,42,30,30,27,22,20], backgroundColor:C.lime, ...bp }],{ horizontal:true });
+mkChart('ch-areas-young','bar',
+  ['Confianza/seguridad','Comunicación','Toma decisiones','Gestión proyectos','Res. conflictos','Liderazgo técnico','Trabajo equipo'],
+  [{ data:[59.5,56.8,56.8,50.0,39.2,35.1,32.4], backgroundColor:C.lime, ...bp }],
+  { horizontal:true, scales:{
+    x:{ max:100, grid:gridStyle, ticks:{...tickStyle, callback:v=>v+'%'}, border:borderOff },
+    y:{ grid:gridStyle, ticks:tickStyle, border:borderOff }
+  }});
+
+quotes('quotes-cambio',[
+  'Confianza en mis habilidades',
+  'Poder sentirme segura en expresar mis ideas',
+  'Eliminar síndrome del impostor',
+  'Seguridad al tener referentes',
+  'Redes de contacto con lideresas en industrias históricamente de hombres',
+  'Poder liderar grupos mixtos de manera efectiva, siendo escuchada',
+  'Sentirme cómoda y confiada para liderar en un futuro',
+  'Fortalecer mi liderazgo técnico y generar una red sólida de colaboración',
+  'Más carácter, más seguridad y hablar en público con confianza',
+  'Saber lo que valgo en la industria',
+  'Haber formado una red de apoyo',
+  'Conocer más ingenieras'
+]);
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  ['resumen','barreras','liderazgo','programa','joven','preguntas'].forEach((s,i)=>{
+    if(s===id) document.querySelectorAll('nav button')[i].classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
