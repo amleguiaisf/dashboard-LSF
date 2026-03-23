@@ -9,45 +9,26 @@
   @import url('https://fonts.googleapis.com/css2?family=Actor&family=DM+Serif+Display&display=swap');
 
   :root {
-    --blue: #64A7DB;
-    --blue-dark: #3d7faf;
-    --navy: #1F3864;
-    --lime: #BEC625;
-    --lime-pale: #f4f6c8;
-    --bg: #F6F7F9;
-    --white: #ffffff;
-    --text: #1e2535;
-    --muted: #5a6478;
-    --border: #e4e8ef;
+    --blue: #64A7DB; --blue-dark: #3d7faf;
+    --navy: #1F3864; --lime: #BEC625;
+    --bg: #F6F7F9; --white: #ffffff;
+    --text: #1e2535; --muted: #5a6478; --border: #e4e8ef;
     --shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Actor', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+  body { font-family: 'Actor', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
 
-  header {
-    background: var(--navy); padding: 24px 40px;
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-    border-bottom: 3px solid var(--lime);
-  }
+  header { background: var(--navy); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-bottom: 3px solid var(--lime); }
   .header-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: #fff; font-weight: 400; }
   .header-left p { color: rgba(255,255,255,0.55); font-size: 0.74rem; margin-top: 3px; }
-  .header-badge { background: var(--lime); color: var(--navy); font-size: 0.71rem; font-weight: 600; padding: 5px 12px; border-radius: 4px; letter-spacing: 0.04em; }
+  .header-badge { background: var(--lime); color: var(--navy); font-size: 0.71rem; font-weight: 600; padding: 5px 12px; border-radius: 4px; }
 
   nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; overflow-x: auto; }
-  nav button {
-    background: none; border: none; color: var(--muted); font-family: 'Actor', sans-serif;
-    font-size: 0.78rem; font-weight: 500; padding: 12px 16px; cursor: pointer;
-    border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s;
-  }
+  nav button { background: none; border: none; color: var(--muted); font-family: 'Actor', sans-serif; font-size: 0.78rem; padding: 12px 16px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
   nav button:hover { color: var(--text); }
-  nav button.active { color: var(--blue); border-bottom-color: var(--blue); }
+  nav button.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
 
-  .legend {
-    display: flex; gap: 20px; align-items: center;
-    padding: 10px 40px; background: var(--white);
-    border-bottom: 1px solid var(--border); flex-wrap: wrap;
-  }
+  .legend { display: flex; gap: 20px; align-items: center; padding: 10px 40px; background: var(--white); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .legend-label { font-size: 0.74rem; font-weight: 600; color: var(--text); }
   .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.76rem; color: var(--text); }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
@@ -62,20 +43,22 @@
   .kpi.hl { border-left-color: var(--lime); }
   .kpi.hl2 { border-left-color: var(--blue); }
   .kpi .val { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--navy); line-height: 1; }
-  .kpi .lbl { font-size: 0.69rem; color: var(--muted); margin-top: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .kpi .lbl { font-size: 0.69rem; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
 
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; margin-bottom: 14px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 14px; }
 
   .card { background: var(--white); border-radius: 7px; padding: 20px 22px; box-shadow: var(--shadow); }
-  .card h3 { font-size: 0.71rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; }
-  .card h3 span { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); opacity: 0.7; margin-left: 4px; }
+  .card h3 { font-size: 0.71rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; font-weight: 600; }
+  .card h3 span { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: 0.8; margin-left: 4px; }
 
-  /* BAR COMPARE — leyenda inline */
+  /* TOGGLE TABS inside card */
+  .toggle-bar { display: flex; gap: 0; margin-bottom: 18px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; width: fit-content; }
+  .toggle-bar button { background: none; border: none; font-family: 'Actor', sans-serif; font-size: 0.75rem; color: var(--muted); padding: 7px 14px; cursor: pointer; transition: all 0.15s; }
+  .toggle-bar button.active { background: var(--blue); color: #fff; }
+
+  /* BAR COMPARE */
   .bar-compare { display: flex; flex-direction: column; gap: 13px; }
-  .bar-compare-legend { display: flex; gap: 14px; margin-bottom: 14px; }
-  .bcl-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text); }
-  .bcl-dot { width: 10px; height: 6px; border-radius: 2px; }
   .bar-label { font-size: 0.78rem; color: var(--text); margin-bottom: 5px; font-weight: 500; display: flex; justify-content: space-between; align-items: baseline; }
   .bar-label span { font-weight: 400; color: var(--muted); font-size: 0.72rem; }
   .bar-track { background: var(--bg); border-radius: 3px; overflow: hidden; height: 5px; margin-bottom: 3px; }
@@ -85,6 +68,14 @@
   .bar-double { display: flex; gap: 5px; }
   .bar-double .bar-track { flex: 1; }
 
+  /* LIKERT STACKED */
+  .likert-block { margin-bottom: 14px; }
+  .likert-label { font-size: 0.78rem; font-weight: 500; color: var(--text); margin-bottom: 5px; display: flex; justify-content: space-between; }
+  .likert-label span { font-size: 0.72rem; color: var(--muted); }
+  .likert-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 1px; }
+  .likert-seg { height: 100%; transition: width 0.6s ease; }
+
+  /* INSIGHT BOXES */
   .insight-box { background: var(--bg); border-left: 3px solid var(--lime); border-radius: 0 5px 5px 0; padding: 11px 13px; margin-bottom: 9px; }
   .insight-box .tag { font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy); margin-bottom: 3px; }
   .insight-box p { font-size: 0.8rem; color: var(--text); line-height: 1.55; }
@@ -93,19 +84,30 @@
   .insight-box.blue { background: #f0f6fc; border-color: var(--blue); }
   .insight-box.blue .tag { color: var(--blue-dark); }
 
+  /* QUOTES */
   .quotes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
   .quote { background: var(--bg); border-radius: 5px; padding: 13px 15px; font-size: 0.8rem; line-height: 1.55; color: var(--text); border-left: 2px solid var(--lime); }
-  .quote .qtag { font-size: 0.64rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 7px; }
+  .quote .qtag { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 7px; }
 
+  /* DONUT */
   .donut-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .donut-wrap { width: 110px; height: 110px; flex-shrink: 0; }
   .donut-legend { flex: 1; min-width: 130px; }
   .donut-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; margin-bottom: 6px; color: var(--text); }
   .donut-swatch { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 
+  /* ACUERDO KPI */
+  .acuerdo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .acuerdo-card { background: var(--bg); border-radius: 6px; padding: 16px; text-align: center; }
+  .acuerdo-card .num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--navy); }
+  .acuerdo-card .lbl { font-size: 0.72rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .acuerdo-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 10px; }
+  .acuerdo-fill { height: 100%; border-radius: 2px; background: var(--lime); }
+
   @media(max-width:700px) {
     header, nav, main, .legend { padding-left: 16px; padding-right: 16px; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .acuerdo-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -116,7 +118,7 @@
     <h1>Diagnóstico Lideresas Sin Fronteras</h1>
     <p>ISF Chile · 22 marzo 2026 · Solo respondentes autorizadas</p>
   </div>
-  <div class="header-badge">308 respuestas</div>
+  <div class="header-badge">314 respuestas</div>
 </header>
 
 <nav id="nav">
@@ -129,17 +131,17 @@
 
 <div class="legend">
   <span class="legend-label">Referencias:</span>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Total muestra (308) — azul</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Total muestra (314) — azul</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--lime)"></div> Segmento joven ≤25 años (74) — verde</div>
   <span class="legend-note">Escala Likert 1–5 · % sobre respuestas válidas</span>
 </div>
 
 <main>
 
-<!-- RESUMEN -->
+<!-- ═══ RESUMEN ═══ -->
 <section id="resumen" class="section active">
   <div class="kpi-row">
-    <div class="kpi hl"><div class="val">308</div><div class="lbl">Respuestas válidas</div></div>
+    <div class="kpi hl"><div class="val">314</div><div class="lbl">Respuestas válidas</div></div>
     <div class="kpi hl2"><div class="val">74</div><div class="lbl">Segmento joven ≤25</div></div>
     <div class="kpi hl"><div class="val">67%</div><div class="lbl">Interés confirmado</div></div>
     <div class="kpi hl2"><div class="val">3.87</div><div class="lbl">Prob. participar /5</div></div>
@@ -164,22 +166,42 @@
   </div>
 </section>
 
-<!-- BARRERAS -->
+<!-- ═══ BARRERAS ═══ -->
 <section id="barreras" class="section">
   <div class="grid-2">
     <div class="card">
       <h3>Dificultades en trayectoria <span>· promedio 1–5 · azul=total · verde=joven</span></h3>
       <div class="bar-compare" id="dif-compare"></div>
     </div>
-    <div class="card"><h3>Barreras para participar</h3><div style="position:relative"><canvas id="ch-barreras" height="210"></canvas></div></div>
+    <div class="card">
+      <h3>Distribución de dificultades <span>· cuántas respondieron cada nivel 1–5</span></h3>
+      <div id="dif-likert-dist"></div>
+    </div>
   </div>
   <div class="grid-2">
+    <div class="card">
+      <h3>Nivel de acuerdo con afirmaciones clave <span>· pregunta 8</span></h3>
+      <div class="acuerdo-grid">
+        <div class="acuerdo-card">
+          <div class="num">4.63</div>
+          <div class="lbl">La ingeniería tiene un rol importante en resolver desafíos sociales y ambientales</div>
+          <div class="acuerdo-bar"><div class="acuerdo-fill" style="width:92.6%"></div></div>
+        </div>
+        <div class="acuerdo-card">
+          <div class="num">4.47</div>
+          <div class="lbl">Mayor paridad de género en liderazgo mejora la respuesta a desafíos sociales</div>
+          <div class="acuerdo-bar"><div class="acuerdo-fill" style="width:89.4%"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="position:relative"><canvas id="ch-acuerdo" height="160"></canvas></div>
+      </div>
+    </div>
     <div class="card"><h3>Factores de desmotivación <span>· temas en texto abierto</span></h3><div id="temas-desm"></div></div>
-    <div class="card"><h3>Etapas con mayor impacto negativo por género</h3><div style="position:relative"><canvas id="ch-etapas2" height="210"></canvas></div></div>
   </div>
 </section>
 
-<!-- LIDERAZGO -->
+<!-- ═══ LIDERAZGO ═══ -->
 <section id="liderazgo" class="section">
   <div class="kpi-row">
     <div class="kpi hl2"><div class="val">4.02</div><div class="lbl">Seguridad · Total</div></div>
@@ -189,22 +211,19 @@
   </div>
   <div class="grid-2">
     <div class="card"><h3>Seguridad liderando <span>· distribución 1–5 · azul=total · verde=joven</span></h3><div style="position:relative"><canvas id="ch-seg" height="210"></canvas></div></div>
-    <div class="card">
-      <h3>Áreas a fortalecer <span>· % respondentes · azul=total · verde=joven</span></h3>
-      <div class="bar-compare" id="areas-compare"></div>
-    </div>
+    <div class="card"><h3>Áreas a fortalecer <span>· % respondentes · azul=total · verde=joven</span></h3><div class="bar-compare" id="areas-compare"></div></div>
   </div>
   <div class="grid-2">
-    <div class="card"><h3>Apoyo más valioso</h3><div style="position:relative"><canvas id="ch-apoyo" height="210"></canvas></div></div>
+    <div class="card"><h3>Apoyo más valioso para su desarrollo</h3><div style="position:relative"><canvas id="ch-apoyo" height="210"></canvas></div></div>
     <div class="card"><h3>Experiencias de aprendizaje preferidas</h3><div style="position:relative"><canvas id="ch-exp" height="210"></canvas></div></div>
   </div>
 </section>
 
-<!-- JOVEN -->
+<!-- ═══ JOVEN ═══ -->
 <section id="joven" class="section">
   <div class="insight-box blue" style="margin-bottom:16px;">
     <div class="tag">Segmento analizado</div>
-    <p><strong>74 respondentes autorizadas</strong> · mujeres ≤25 años · Estudiante (primeros y últimos años) + Egresada reciente. Representan el <strong>24% del total</strong>.</p>
+    <p><strong>74 respondentes autorizadas</strong> · mujeres ≤25 años · Estudiante (primeros y últimos años) + Egresada reciente · <strong>24% del total</strong>.</p>
   </div>
   <div class="kpi-row">
     <div class="kpi hl"><div class="val">74</div><div class="lbl">Respondentes</div></div>
@@ -215,10 +234,7 @@
   </div>
   <div class="grid-2">
     <div class="card"><h3>Temas dominantes en texto abierto</h3><div id="temas-joven"></div></div>
-    <div class="card">
-      <h3>Dificultades percibidas <span>· azul=total · verde=joven</span></h3>
-      <div class="bar-compare" id="dif-joven"></div>
-    </div>
+    <div class="card"><h3>Dificultades percibidas <span>· azul=total · verde=joven</span></h3><div class="bar-compare" id="dif-joven"></div></div>
   </div>
   <div class="grid-2">
     <div class="card"><h3>Etapas con mayor impacto negativo · Joven</h3><div style="position:relative"><canvas id="ch-etapas-young" height="190"></canvas></div></div>
@@ -234,20 +250,58 @@
   </div>
 </section>
 
-<!-- PROGRAMA -->
+<!-- ═══ PROGRAMA ═══ -->
 <section id="programa" class="section">
   <div class="kpi-row">
     <div class="kpi hl2"><div class="val">3.87</div><div class="lbl">Prob. participar · Total /5</div></div>
-    <div class="kpi"><div class="val">3.79</div><div class="lbl">Prob. participar · Joven</div></div>
-    <div class="kpi hl"><div class="val">61%</div><div class="lbl">Prefiere Híbrido</div></div>
-    <div class="kpi hl"><div class="val">54%</div><div class="lbl">Prefiere 2–3 meses</div></div>
+    <div class="kpi hl"><div class="val">4.21</div><div class="lbl">Prob. participar · Interesadas</div></div>
+    <div class="kpi"><div class="val">209</div><div class="lbl">Declaran interés (Sí)</div></div>
+    <div class="kpi"><div class="val">61%</div><div class="lbl">Prefiere Híbrido</div></div>
+    <div class="kpi"><div class="val">55%</div><div class="lbl">Prefiere 2–3 meses</div></div>
   </div>
-  <div class="grid-2">
-    <div class="card"><h3>Probabilidad de participar activamente <span>· azul=total · verde=joven</span></h3><div style="position:relative"><canvas id="ch-prob" height="210"></canvas></div></div>
-    <div class="card"><h3>Formato preferido <span>· azul=total · verde=joven</span></h3><div style="position:relative"><canvas id="ch-formato" height="210"></canvas></div></div>
+
+  <!-- Probabilidad de participar -->
+  <div class="card" style="margin-bottom:14px;">
+    <h3>Probabilidad de participar activamente <span>· comparación total vs. solo quienes declararon interés</span></h3>
+    <div class="toggle-bar">
+      <button class="active" onclick="toggleProg('prob','all',this)">Total (314)</button>
+      <button onclick="toggleProg('prob','int',this)">Solo interesadas (209)</button>
+    </div>
+    <div style="position:relative"><canvas id="ch-prob" height="200"></canvas></div>
   </div>
+
   <div class="grid-2">
-    <div class="card"><h3>Duración preferida <span>· azul=total · verde=joven</span></h3><div style="position:relative"><canvas id="ch-duracion" height="190"></canvas></div></div>
+    <!-- Formato -->
+    <div class="card">
+      <h3>Formato preferido</h3>
+      <div class="toggle-bar">
+        <button class="active" onclick="toggleProg('formato','all',this)">Total</button>
+        <button onclick="toggleProg('formato','int',this)">Interesadas</button>
+      </div>
+      <div style="position:relative"><canvas id="ch-formato" height="190"></canvas></div>
+    </div>
+    <!-- Duración -->
+    <div class="card">
+      <h3>Duración preferida</h3>
+      <div class="toggle-bar">
+        <button class="active" onclick="toggleProg('duracion','all',this)">Total</button>
+        <button onclick="toggleProg('duracion','int',this)">Interesadas</button>
+      </div>
+      <div style="position:relative"><canvas id="ch-duracion" height="190"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Barreras -->
+    <div class="card">
+      <h3>Barreras para participar en el programa</h3>
+      <div class="toggle-bar">
+        <button class="active" onclick="toggleProg('barreras','all',this)">Total</button>
+        <button onclick="toggleProg('barreras','int',this)">Interesadas</button>
+      </div>
+      <div style="position:relative"><canvas id="ch-barreras" height="190"></canvas></div>
+    </div>
+    <!-- Cambio esperado -->
     <div class="card"><h3>Cambio más significativo esperado <span>· temas en texto abierto</span></h3><div id="temas-cambio"></div></div>
   </div>
 </section>
@@ -256,59 +310,52 @@
 
 <script>
 const C = { blue:'#64A7DB', lime:'#BEC625', navy:'#1F3864', muted:'#5a6478', bg:'#F6F7F9' };
-
 Chart.defaults.font.family = 'Actor';
 Chart.defaults.color = '#5a6478';
 
-const gridStyle = { color:'#eef0f4', drawBorder:false };
-const tickStyle = { font:{ size:11 } };
-const borderOff = { display:false };
-const defScales = {
-  x:{ grid:gridStyle, ticks:tickStyle, border:borderOff },
-  y:{ grid:gridStyle, ticks:tickStyle, border:borderOff }
-};
+const gS = { color:'#eef0f4', drawBorder:false };
+const tS = { font:{ size:11 } };
+const bO = { display:false };
+const defSc = { x:{ grid:gS, ticks:tS, border:bO }, y:{ grid:gS, ticks:tS, border:bO } };
+
+const charts = {};
 
 function mkChart(id, type, labels, datasets, opts={}) {
   const ctx = document.getElementById(id); if(!ctx) return;
-  return new Chart(ctx, {
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart(ctx, {
     type, data:{ labels, datasets },
     options:{
       responsive:true, maintainAspectRatio:false,
       plugins:{
-        legend:{ display:opts.legend??false, position:'bottom',
-          labels:{ font:{size:11}, padding:14, boxWidth:10, boxHeight:10 } },
+        legend:{ display:opts.legend??false, position:'bottom', labels:{ font:{size:11}, padding:14, boxWidth:10, boxHeight:10 } },
         tooltip:{ backgroundColor:'#1e2535', padding:10, cornerRadius:5,
-          callbacks:{ label: ctx => ` ${ctx.raw}${opts.pctSuffix||''}` } }
+          callbacks:{ label: ctx => ` ${ctx.raw}${opts.sfx||''}` } }
       },
-      scales: opts.scales !== undefined ? opts.scales : (type==='bar' ? defScales : {}),
-      indexAxis: opts.horizontal ? 'y' : 'x',
+      scales: opts.scales !== undefined ? opts.scales : (type==='bar' ? defSc : {}),
+      indexAxis: opts.h ? 'y' : 'x',
       ...opts.extra
     }
   });
 }
 
-function donut(canvasId, legendId, data, colors) {
+function donut(cId, lId, data, colors) {
   const labels=Object.keys(data), vals=Object.values(data), total=vals.reduce((a,b)=>a+b,0);
-  mkChart(canvasId,'doughnut',labels,[{ data:vals, backgroundColor:colors, borderWidth:3, borderColor:'#fff', hoverOffset:3 }],
+  mkChart(cId,'doughnut',labels,[{ data:vals, backgroundColor:colors, borderWidth:3, borderColor:'#fff', hoverOffset:3 }],
     { legend:false, scales:{}, extra:{ cutout:'68%' } });
-  const lg=document.getElementById(legendId);
+  const lg=document.getElementById(lId);
   if(lg) lg.innerHTML=labels.map((l,i)=>
-    `<div class="donut-legend-item"><div class="donut-swatch" style="background:${colors[i]}"></div>
-    <span>${l} <strong>${Math.round(vals[i]/total*100)}%</strong></span></div>`
+    `<div class="donut-legend-item"><div class="donut-swatch" style="background:${colors[i]}"></div><span>${l} <strong>${Math.round(vals[i]/total*100)}%</strong></span></div>`
   ).join('');
 }
 
 function barCompare(id, labels, allV, youngV, max=5, sfx='') {
   const el=document.getElementById(id); if(!el) return;
-  el.innerHTML = labels.map((lbl,i)=>{
-    const a=allV[i], y=youngV[i];
-    const ap=Math.round(a/max*100), yp=Math.round(y/max*100);
-    return `<div class="bar-item">
-      <div class="bar-label">${lbl} <span>${a}${sfx} · ${y}${sfx}</span></div>
-      <div class="bar-double">
-        <div class="bar-track"><div class="bar-fill all" style="width:${ap}%"></div></div>
-        <div class="bar-track"><div class="bar-fill young" style="width:${yp}%"></div></div>
-      </div></div>`;
+  el.innerHTML=labels.map((lbl,i)=>{
+    const a=allV[i], y=youngV[i], ap=Math.round(a/max*100), yp=Math.round(y/max*100);
+    return `<div class="bar-item"><div class="bar-label">${lbl} <span>${a}${sfx} · ${y}${sfx}</span></div>
+    <div class="bar-double"><div class="bar-track"><div class="bar-fill all" style="width:${ap}%"></div></div>
+    <div class="bar-track"><div class="bar-fill young" style="width:${yp}%"></div></div></div></div>`;
   }).join('');
 }
 
@@ -322,41 +369,74 @@ function quotes(id, qs) {
   el.innerHTML=qs.map(q=>`<div class="quote"><p>${q}</p><div class="qtag">Segmento ≤25</div></div>`).join('');
 }
 
+// Likert stacked distribution
+function likertDist(containerId, items) {
+  const el=document.getElementById(containerId); if(!el) return;
+  const colors=['#e8f0f8','#b8d4ec','#64A7DB','#3d7faf','#1F3864'];
+  el.innerHTML = items.map(({label, dist, avg})=>{
+    const total = Object.values(dist).reduce((a,b)=>a+b,0);
+    const segs = [1,2,3,4,5].map(k=>({v:dist[k]||0, pct:Math.round((dist[k]||0)/total*100)}));
+    const bars = segs.map((s,i)=>`<div class="likert-seg" title="${i+1}: ${s.v} (${s.pct}%)" style="width:${s.pct}%;background:${colors[i]}"></div>`).join('');
+    return `<div class="likert-block">
+      <div class="likert-label">${label} <span>prom. ${avg}</span></div>
+      <div class="likert-bar">${bars}</div>
+    </div>`;
+  }).join('');
+  // legend
+  el.innerHTML += `<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+    ${[1,2,3,4,5].map((n,i)=>`<div style="display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--muted)">
+      <div style="width:10px;height:10px;border-radius:2px;background:${colors[i]}"></div>${n}=Nada hasta 5=Mucho</div>`).slice(0,1).join('')}
+    <span style="font-size:0.72rem;color:var(--muted)">Tonos más oscuros = mayor dificultad (4–5)</span>
+  </div>`;
+}
+
 const bp = { borderRadius:4, barPercentage:0.58 };
 
 // ── RESUMEN ──
-// Etapas en orden: primeros → últimos → egresada → exp → lideresas
 mkChart('ch-etapa','bar',
   ['Est. primeros','Est. últimos','Egresada 0–3a','Exp. 3–10a','Lideresas >10a'],
-  [{ data:[29,34,55,85,105], backgroundColor:C.blue, ...bp }]
+  [{ data:[29,34,55,90,106], backgroundColor:C.blue, ...bp }]
 );
 mkChart('ch-area','bar',
   ['Civil','Industrial','Ambiental','Eléctrica','Química','Informática'],
-  [{ data:[79,78,22,19,8,4], backgroundColor:C.blue, ...bp }]
+  [{ data:[79,79,23,20,8,4], backgroundColor:C.blue, ...bp }]
 );
 mkChart('ch-isf','bar',
   ['No conocía','Solo conozco','Voluntaria','Ex-participante','Aliada'],
-  [{ data:[177,107,8,6,6], backgroundColor:C.blue, ...bp }],{ horizontal:true }
+  [{ data:[179,111,8,6,6], backgroundColor:C.blue, ...bp }],{ h:true }
 );
 mkChart('ch-etapas-impacto','bar',
   ['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
   [{ data:[155,150,88,73,48], backgroundColor:C.blue, ...bp }]
 );
-donut('ch-interes-all','leg-interes-all',{Sí:206,'Tal vez':93,No:9},[C.lime,C.blue,C.muted]);
-donut('ch-mentorias-all','leg-mentorias-all',{No:188,Sí:120},[C.blue,C.lime]);
+donut('ch-interes-all','leg-interes-all',{Sí:209,'Tal vez':96,No:9},[C.lime,C.blue,C.muted]);
+donut('ch-mentorias-all','leg-mentorias-all',{No:192,Sí:122},[C.blue,C.lime]);
 donut('ch-mentora-all','leg-mentora-all',{Sí:174,'Tal vez':115,No:10},[C.lime,C.blue,C.muted]);
 
 // ── BARRERAS ──
 barCompare('dif-compare',
-  ['Ambientes masculinizados','Discriminación/sexismo','Falta de referentes','Baja confianza','Ejercer liderazgo','Acceso oportunidades'],
-  [3.68,3.18,3.18,3.07,2.92,2.85],
+  ['Ambientes masculinizados','Discriminación/sexismo','Falta referentes','Baja confianza','Ejercer liderazgo','Acceso oportunidades'],
+  [3.67,3.18,3.18,3.06,2.92,2.85],
   [3.59,2.89,3.19,3.19,2.69,2.28]
 );
-mkChart('ch-barreras','bar',
-  ['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],
-  [{ label:'Total (azul)', data:[152,78,44,10], backgroundColor:C.blue, ...bp },
-   { label:'Joven (verde)', data:[38,29,4,0], backgroundColor:C.lime, ...bp }],
-  { legend:true }
+likertDist('dif-likert-dist',[
+  { label:'Ambientes masculinizados', dist:{1:27,2:33,3:68,4:76,5:110}, avg:3.67 },
+  { label:'Discriminación/sexismo',   dist:{1:53,2:58,3:59,4:68,5:76},  avg:3.18 },
+  { label:'Falta de referentes',      dist:{1:45,2:44,3:91,4:77,5:57},  avg:3.18 },
+  { label:'Baja confianza',           dist:{1:61,2:55,3:66,4:67,5:65},  avg:3.06 },
+  { label:'Ejercer liderazgo',        dist:{1:60,2:61,3:87,4:57,5:49},  avg:2.92 },
+  { label:'Acceso a oportunidades',   dist:{1:67,2:61,3:82,4:61,5:43},  avg:2.85 },
+]);
+mkChart('ch-acuerdo','bar',
+  ['Ingeniería y desafíos sociales','Paridad de género en liderazgo'],
+  [
+    { label:'Total desacuerdo (1)', data:[7,10], backgroundColor:'#e8f0f8', ...bp },
+    { label:'2', data:[3,8], backgroundColor:'#b8d4ec', ...bp },
+    { label:'3', data:[28,36], backgroundColor:C.blue, ...bp },
+    { label:'4', data:[23,31], backgroundColor:'#3d7faf', ...bp },
+    { label:'Total acuerdo (5)', data:[253,229], backgroundColor:C.navy, ...bp }
+  ],
+  { legend:true, extra:{ plugins:{ legend:{ display:true, position:'bottom', labels:{ font:{size:10}, padding:10, boxWidth:8, boxHeight:8 } } } }, scales:{ x:{...defSc.x, stacked:true}, y:{...defSc.y, stacked:true} } }
 );
 themes('temas-desm',[
   { tag:'Tema dominante · Referentes y soledad', text:'La <strong>falta de referentes femeninas</strong> es el tema más citado. Vinculado al síndrome del impostor: sin ver mujeres que lo lograron, es difícil proyectarse.' },
@@ -364,30 +444,26 @@ themes('temas-desm',[
   { tag:'Tema relevante · Maternidad (mujeres mayores)', text:'En el grupo total, la maternidad y conciliación vida–trabajo es el factor más mencionado. Requiere respuesta distinta en el programa.' },
   { tag:'Señal de alerta', cls:'red', text:'Al menos <strong>3 respuestas describen situaciones de acoso o violencia</strong> con protocolos institucionales ineficaces. Considerar módulo de acompañamiento.' }
 ]);
-mkChart('ch-etapas2','bar',
-  ['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
-  [{ data:[155,150,88,73,48], backgroundColor:C.blue, ...bp }],{ horizontal:true }
-);
 
 // ── LIDERAZGO ──
 mkChart('ch-seg','bar',['1','2','3','4','5'],
-  [{ label:'Total (azul)', data:[4,16,59,120,109], backgroundColor:C.blue, ...bp },
+  [{ label:'Total (azul)', data:[4,16,60,124,110], backgroundColor:C.blue, ...bp },
    { label:'Joven (verde)', data:[1,6,21,33,13], backgroundColor:C.lime, ...bp }],
   { legend:true }
 );
 barCompare('areas-compare',
   ['Comunicación efectiva','Confianza/seguridad','Toma de decisiones','Gestión proyectos','Resolución conflictos','Liderazgo técnico','Trabajo en equipo'],
-  [51.3,49.0,47.4,46.8,44.5,43.5,26.0],
+  [51.3,49.4,47.1,46.8,43.9,43.9,25.8],
   [56.8,59.5,56.8,50.0,39.2,35.1,32.4],
   100,'%'
 );
 mkChart('ch-apoyo','bar',
   ['Redes contacto','Mentorías','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
-  [{ data:[256,224,150,146,109], backgroundColor:C.blue, ...bp }]
+  [{ data:[260,227,152,149,111], backgroundColor:C.blue, ...bp }]
 );
 mkChart('ch-exp','bar',
   ['Proyectos reales','Visitas terreno','Red activa','Mentorías 1:1','Talleres prácticos','Pares','Shadowing','Charlas'],
-  [{ data:[188,188,162,156,141,130,108,85], backgroundColor:C.blue, ...bp }],{ horizontal:true }
+  [{ data:[191,191,165,159,143,132,110,86], backgroundColor:C.blue, ...bp }],{ h:true }
 );
 
 // ── JOVEN ──
@@ -398,8 +474,8 @@ themes('temas-joven',[
   { tag:'4 · Aislamiento entre compañeras', text:'Algunas mencionan que incluso compañeras reproducen comentarios machistas. La falta de red femenina amplifica la soledad.' }
 ]);
 barCompare('dif-joven',
-  ['Ambientes masculinizados','Baja confianza','Falta de referentes','Discriminación/sexismo','Ejercer liderazgo','Acceso oportunidades'],
-  [3.68,3.07,3.18,3.18,2.92,2.85],
+  ['Ambientes masculinizados','Baja confianza','Falta referentes','Discriminación/sexismo','Ejercer liderazgo','Acceso oportunidades'],
+  [3.67,3.06,3.18,3.18,2.92,2.85],
   [3.59,3.19,3.19,2.89,2.69,2.28]
 );
 mkChart('ch-etapas-young','bar',
@@ -412,14 +488,14 @@ mkChart('ch-apoyo-young','bar',
 );
 mkChart('ch-exp-young','bar',
   ['Visitas terreno','Proyectos reales','Talleres prácticos','Pares','Mentorías 1:1','Red activa','Charlas','Shadowing'],
-  [{ data:[58,53,42,30,30,27,22,20], backgroundColor:C.lime, ...bp }],{ horizontal:true }
+  [{ data:[58,53,42,30,30,27,22,20], backgroundColor:C.lime, ...bp }],{ h:true }
 );
 mkChart('ch-areas-young','bar',
   ['Confianza/seguridad','Comunicación','Toma decisiones','Gestión proyectos','Res. conflictos','Liderazgo técnico','Trabajo equipo'],
   [{ data:[59.5,56.8,56.8,50.0,39.2,35.1,32.4], backgroundColor:C.lime, ...bp }],
-  { horizontal:true, pctSuffix:'%', scales:{
-    x:{ max:100, grid:gridStyle, ticks:{...tickStyle, callback:v=>v+'%'}, border:borderOff },
-    y:{ grid:gridStyle, ticks:tickStyle, border:borderOff }
+  { h:true, sfx:'%', scales:{
+    x:{ max:100, grid:gS, ticks:{...tS, callback:v=>v+'%'}, border:bO },
+    y:{ grid:gS, ticks:tS, border:bO }
   }}
 );
 quotes('quotes-cambio',[
@@ -437,22 +513,47 @@ quotes('quotes-cambio',[
   'Conocer más ingenieras'
 ]);
 
-// ── PROGRAMA ──
-mkChart('ch-prob','bar',['1','2','3','4','5'],
-  [{ label:'Total (azul)', data:[1,15,91,106,86], backgroundColor:C.blue, ...bp },
-   { label:'Joven (verde)', data:[0,4,24,28,17], backgroundColor:C.lime, ...bp }],
-  { legend:true }
-);
-mkChart('ch-formato','bar',['Híbrido','Online','Presencial'],
-  [{ label:'Total (azul)', data:[189,78,32], backgroundColor:C.blue, ...bp },
-   { label:'Joven (verde)', data:[46,16,11], backgroundColor:C.lime, ...bp }],
-  { legend:true }
-);
-mkChart('ch-duracion','bar',['2–3 meses','1 mes','4–6 meses'],
-  [{ label:'Total (azul)', data:[167,73,55], backgroundColor:C.blue, ...bp },
-   { label:'Joven (verde)', data:[45,21,6], backgroundColor:C.lime, ...bp }],
-  { legend:true }
-);
+// ── PROGRAMA — datos para toggle ──
+const progData = {
+  prob: {
+    all: { labels:['1','2','3','4','5'], data:[1,16,92,109,87] },
+    int: { labels:['1','2','3','4','5'], data:[0,1,40,82,86] }
+  },
+  formato: {
+    all: { labels:['Híbrido','Online','Presencial'], data:[193,80,32] },
+    int: { labels:['Híbrido','Online','Presencial'], data:[138,48,23] }
+  },
+  duracion: {
+    all: { labels:['2–3 meses','1 mes','4–6 meses'], data:[172,73,56] },
+    int: { labels:['2–3 meses','1 mes','4–6 meses'], data:[122,46,38] }
+  },
+  barreras: {
+    all: { labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'], data:[154,80,46,10] },
+    int: { labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'], data:[102,57,29,10] }
+  }
+};
+
+function renderProg(key, seg) {
+  const d = progData[key][seg];
+  const isH = key==='barreras';
+  mkChart(`ch-${key}`, 'bar', d.labels,
+    [{ data:d.data, backgroundColor:seg==='all'?C.blue:C.lime, ...bp }],
+    { h:isH }
+  );
+}
+
+function toggleProg(key, seg, btn) {
+  btn.closest('.toggle-bar').querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProg(key, seg);
+}
+
+// Initial render programa
+renderProg('prob','all');
+renderProg('formato','all');
+renderProg('duracion','all');
+renderProg('barreras','all');
+
 themes('temas-cambio',[
   { tag:'Tema dominante · Confianza propia', text:'En casi la mitad de las respuestas. "Más confianza", "eliminar síndrome del impostor", "sentirme capaz". Expectativa central del programa.' },
   { tag:'Tema 2 · Red de contactos', text:'"Conocer ingenieras", "redes de apoyo", "contacto con lideresas". El valor relacional es tan importante como los contenidos.' },
