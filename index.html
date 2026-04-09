@@ -10,7 +10,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Actor&family=DM+Serif+Display&display=swap');
   :root {
     --blue:#64A7DB; --blue-dark:#3d7faf;
-    --navy:#1F3864; --lime:#BEC625;
+    --navy:#1F3864; --lime:#BEC625; --orange:#E8922A;
     --bg:#F6F7F9; --white:#fff;
     --text:#1e2535; --muted:#5a6478; --border:#e4e8ef;
     --shadow:0 1px 4px rgba(0,0,0,0.06);
@@ -34,7 +34,7 @@
   .section{display:none;} .section.active{display:block;}
   .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-bottom:22px;}
   .kpi{background:var(--white);border-radius:7px;padding:16px 18px;box-shadow:var(--shadow);border-left:3px solid var(--border);}
-  .kpi.hl{border-left-color:var(--lime);} .kpi.hl2{border-left-color:var(--blue);}
+  .kpi.hl{border-left-color:var(--lime);} .kpi.hl2{border-left-color:var(--blue);} .kpi.hl3{border-left-color:var(--orange);}
   .kpi .val{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--navy);line-height:1;}
   .kpi .lbl{font-size:0.69rem;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;}
   .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;margin-bottom:14px;}
@@ -62,6 +62,7 @@
   .insight-box p{font-size:.8rem;color:var(--text);line-height:1.55;}
   .insight-box.red{background:#fff5f5;border-color:#d94f4f;} .insight-box.red .tag{color:#b83030;}
   .insight-box.blue{background:#f0f6fc;border-color:var(--blue);} .insight-box.blue .tag{color:var(--blue-dark);}
+  .insight-box.exp{background:#fff8f0;border-color:var(--orange);} .insight-box.exp .tag{color:#c06a10;}
   .donut-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
   .donut-wrap{width:110px;height:110px;flex-shrink:0;}
   .donut-legend{flex:1;min-width:130px;}
@@ -80,21 +81,23 @@
 <header>
   <div class="header-left">
     <h1>Diagnóstico Lideresas Sin Fronteras</h1>
-    <p>ISF Chile · Cierre 7 abril 2026 · Solo respondentes autorizadas</p>
+    <p>ISF Chile · Cierre 8 abril 2026 · Solo respondentes autorizadas</p>
   </div>
-  <div class="header-badge">509 respuestas · Cierre final</div>
+  <div class="header-badge">511 respuestas · Cierre final</div>
 </header>
 <nav id="nav">
   <button class="active" onclick="showSection('resumen')">Resumen</button>
   <button onclick="showSection('barreras')">Barreras</button>
   <button onclick="showSection('liderazgo')">Liderazgo</button>
   <button onclick="showSection('joven')">Segmento Joven ≤25</button>
+  <button onclick="showSection('experiencia')">Ingenieras con Experiencia</button>
   <button onclick="showSection('programa')">Programa</button>
 </nav>
 <div class="legend">
   <span class="legend-label">Referencias:</span>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Total muestra (509) — azul</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--lime)"></div> Segmento joven ≤25 años (180) — verde</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Total muestra (511) — azul</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--lime)"></div> Segmento joven ≤25 años (181) — verde</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Ingenieras con experiencia ≥30 años (255) — naranja</div>
   <span class="legend-note">Escala Likert 1–5 · % sobre respuestas válidas</span>
 </div>
 <main>
@@ -102,8 +105,8 @@
 <!-- RESUMEN -->
 <section id="resumen" class="section active">
   <div class="kpi-row">
-    <div class="kpi hl2"><div class="val">509</div><div class="lbl">Respuestas válidas</div></div>
-    <div class="kpi hl"><div class="val">180</div><div class="lbl">Segmento joven ≤25</div></div>
+    <div class="kpi hl2"><div class="val">511</div><div class="lbl">Respuestas válidas</div></div>
+    <div class="kpi hl"><div class="val">181</div><div class="lbl">Segmento joven ≤25</div></div>
     <div class="kpi hl2"><div class="val">69%</div><div class="lbl">Interés confirmado</div></div>
     <div class="kpi hl2"><div class="val">3.91</div><div class="lbl">Prob. participar /5</div></div>
     <div class="kpi hl2"><div class="val">58%</div><div class="lbl">Sin mentora previa</div></div>
@@ -136,9 +139,14 @@
   <div class="grid-2">
     <div class="card">
       <h3>Nivel de acuerdo con afirmaciones clave</h3>
+      <div class="toggle-bar" style="margin-bottom:12px;">
+        <button class="active" onclick="toggleAcuerdo('total',this)">Total (511)</button>
+        <button onclick="toggleAcuerdo('conoce',this)">Conoce ISF (228)</button>
+        <button onclick="toggleAcuerdo('noconoce',this)">No conoce ISF (283)</button>
+      </div>
       <div class="acuerdo-grid">
-        <div class="acuerdo-card"><div class="num">4.63</div><div class="lbl">La ingeniería tiene un rol importante en resolver desafíos sociales y ambientales</div><div class="acuerdo-bar"><div class="acuerdo-fill" style="width:92.6%"></div></div></div>
-        <div class="acuerdo-card"><div class="num">4.43</div><div class="lbl">Mayor paridad de género en liderazgo mejora la respuesta a desafíos sociales</div><div class="acuerdo-bar"><div class="acuerdo-fill" style="width:88.6%"></div></div></div>
+        <div class="acuerdo-card"><div class="num" id="num-ing">4.63</div><div class="lbl">La ingeniería tiene un rol importante en resolver desafíos sociales y ambientales</div><div class="acuerdo-bar"><div class="acuerdo-fill" id="fill-ing" style="width:92.6%"></div></div></div>
+        <div class="acuerdo-card"><div class="num" id="num-par">4.43</div><div class="lbl">Mayor paridad de género en liderazgo mejora la respuesta a desafíos sociales</div><div class="acuerdo-bar"><div class="acuerdo-fill" id="fill-par" style="width:88.6%"></div></div></div>
       </div>
       <div style="margin-top:14px"><div style="position:relative"><canvas id="ch-acuerdo" height="160"></canvas></div></div>
     </div>
@@ -150,8 +158,8 @@
 <section id="liderazgo" class="section">
   <div class="kpi-row">
     <div class="kpi hl2"><div class="val">3.96</div><div class="lbl">Seguridad liderando · Total <span style="font-size:.6rem;display:block;opacity:.7">¿Qué tan segura te sientes liderando?</span></div></div>
-    <div class="kpi hl"><div class="val">3.73 ↓</div><div class="lbl">Seguridad liderando · Joven</div></div>
-    <div class="kpi hl2"><div class="val">3.64</div><div class="lbl">Preparación percibida · Total <span style="font-size:.6rem;display:block;opacity:.7">¿Qué tan preparada te sientes para liderar?</span></div></div>
+    <div class="kpi hl"><div class="val">3.72 ↓</div><div class="lbl">Seguridad liderando · Joven</div></div>
+    <div class="kpi hl2"><div class="val">3.65</div><div class="lbl">Preparación percibida · Total <span style="font-size:.6rem;display:block;opacity:.7">¿Qué tan preparada te sientes para liderar?</span></div></div>
     <div class="kpi hl"><div class="val">3.06 ↓</div><div class="lbl">Preparación percibida · Joven</div></div>
   </div>
   <div class="grid-2">
@@ -171,9 +179,9 @@
     <p><strong>180 respondentes autorizadas</strong> · mujeres ≤25 años · Estudiante (primeros y últimos años) + Egresada reciente · <strong>35% del total</strong>.</p>
   </div>
   <div class="kpi-row">
-    <div class="kpi hl"><div class="val">180</div><div class="lbl">Respondentes</div></div>
+    <div class="kpi hl"><div class="val">181</div><div class="lbl">Respondentes</div></div>
     <div class="kpi hl"><div class="val">3.73 ↓</div><div class="lbl">Seguridad liderazgo <span style="font-size:.6rem;display:block;opacity:.6">vs 3.96 total</span></div></div>
-    <div class="kpi hl"><div class="val">3.06 ↓</div><div class="lbl">Preparación percibida <span style="font-size:.6rem;display:block;opacity:.6">vs 3.64 total</span></div></div>
+    <div class="kpi hl"><div class="val">3.06 ↓</div><div class="lbl">Preparación percibida <span style="font-size:.6rem;display:block;opacity:.6">vs 3.65 total</span></div></div>
     <div class="kpi hl"><div class="val">64% ↓</div><div class="lbl">Interés confirmado <span style="font-size:.6rem;display:block;opacity:.6">vs 69% total</span></div></div>
     <div class="kpi hl"><div class="val">48%</div><div class="lbl">Sin mentora previa</div></div>
   </div>
@@ -195,18 +203,49 @@
   </div>
 </section>
 
+<!-- EXPERIENCIA -->
+<section id="experiencia" class="section">
+  <div class="insight-box" style="margin-bottom:16px;border-color:var(--orange);background:#fff8f0;">
+    <div class="tag" style="color:var(--orange);">Segmento analizado · Datos finales</div>
+    <p><strong>256 respondentes ≥30 años</strong> · Principalmente Ingenieras con experiencia (3–10a) y Lideresas Senior (>10a) · <strong>50% del total</strong>. Sus experiencias son guía de terreno para lo que las jóvenes vivirán.</p>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi hl3"><div class="val">256</div><div class="lbl">Respondentes</div></div>
+    <div class="kpi hl3"><div class="val">4.20 ↑</div><div class="lbl">Seguridad liderazgo <span style="font-size:.6rem;display:block;opacity:.6">vs 3.96 total</span></div></div>
+    <div class="kpi hl3"><div class="val">4.14 ↑</div><div class="lbl">Preparación percibida <span style="font-size:.6rem;display:block;opacity:.6">vs 3.65 total</span></div></div>
+    <div class="kpi hl3"><div class="val">71% ↑</div><div class="lbl">Interés confirmado <span style="font-size:.6rem;display:block;opacity:.6">vs 69% total</span></div></div>
+    <div class="kpi hl3"><div class="val">67%</div><div class="lbl">Sin mentora previa</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Temas dominantes en desmotivación</h3><div id="temas-exp"></div></div>
+    <div class="card"><h3>Dificultades percibidas <span>· azul=total · naranja=experiencia</span></h3><div class="bar-compare" id="dif-exp"></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Etapas con mayor impacto negativo · Experiencia</h3><div style="position:relative"><canvas id="ch-etapas-exp" height="190"></canvas></div></div>
+    <div class="card"><h3>Seguridad liderando <span>· % por nivel · naranja=experiencia</span></h3><div style="position:relative"><canvas id="ch-seg-exp" height="190"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>Apoyo más valioso · Experiencia</h3><div style="position:relative"><canvas id="ch-apoyo-exp" height="190"></canvas></div></div>
+    <div class="card"><h3>Experiencias de aprendizaje · Experiencia</h3><div style="position:relative"><canvas id="ch-exp-exp" height="190"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-top:4px;">
+    <h3>Áreas a fortalecer · Experiencia <span>· % respondentes · azul=total · naranja=experiencia</span></h3>
+    <div class="bar-compare" id="areas-exp"></div>
+  </div>
+</section>
+
 <!-- PROGRAMA -->
 <section id="programa" class="section">
   <div class="kpi-row">
     <div class="kpi hl2"><div class="val">3.91</div><div class="lbl">Prob. participar · Total /5</div></div>
     <div class="kpi hl2"><div class="val">4.24 ↑</div><div class="lbl">Prob. participar · Interesadas <span style="font-size:.6rem;display:block;color:#2a9d5c">mayor que total</span></div></div>
-    <div class="kpi hl2"><div class="val">353</div><div class="lbl">Declaran interés (Sí)</div></div>
+    <div class="kpi hl2"><div class="val">354</div><div class="lbl">Declaran interés (Sí)</div></div>
     <div class="kpi hl2"><div class="val">64%</div><div class="lbl">Prefiere Híbrido</div></div>
     <div class="kpi hl2"><div class="val">55%</div><div class="lbl">Prefiere 2–3 meses</div></div>
   </div>
   <div class="card" style="margin-bottom:14px;">
     <h3>Probabilidad de participar activamente <span>· total vs. solo quienes declararon interés</span></h3>
-    <div class="toggle-bar"><button class="active" onclick="toggleProg('prob','all',this)">Total (509)</button><button onclick="toggleProg('prob','int',this)">Solo interesadas (353)</button></div>
+    <div class="toggle-bar"><button class="active" onclick="toggleProg('prob','all',this)">Total (511)</button><button onclick="toggleProg('prob','int',this)">Solo interesadas (354)</button></div>
     <div style="position:relative"><canvas id="ch-prob" height="200"></canvas></div>
   </div>
   <div class="grid-2">
@@ -227,13 +266,13 @@
 </main>
 
 <script>
-const C={blue:'#64A7DB',lime:'#BEC625',navy:'#1F3864',muted:'#5a6478',bg:'#F6F7F9'};
+const C={blue:'#64A7DB',lime:'#BEC625',navy:'#1F3864',muted:'#5a6478',bg:'#F6F7F9',orange:'#E8922A'};
 Chart.defaults.font.family='Actor'; Chart.defaults.color='#5a6478';
 Chart.register(ChartDataLabels);
 const gS={color:'#eef0f4',drawBorder:false}, tS={font:{size:11}}, bO={display:false};
 const defSc={x:{grid:gS,ticks:tS,border:bO},y:{grid:gS,ticks:tS,border:bO}};
 const charts={};
-const N=509, NY=180;
+const N=511, NY=181, NE=256;
 
 function mkBar(id,labels,datasets,opts={}){
   const ctx=document.getElementById(id); if(!ctx) return;
@@ -289,6 +328,16 @@ function barCompare(id,labels,allV,youngV,max=5,sfx=''){
   }).join('');
 }
 
+function barCompareExp(id,labels,allV,expV,max=5,sfx=''){
+  const el=document.getElementById(id); if(!el) return;
+  el.innerHTML=labels.map((lbl,i)=>{
+    const a=allV[i],e=expV[i],ap=Math.round(a/max*100),ep=Math.round(e/max*100);
+    return `<div class="bar-item"><div class="bar-label">${lbl} <span>${a}${sfx} · ${e}${sfx}</span></div>
+    <div class="bar-double"><div class="bar-track"><div class="bar-fill all" style="width:${ap}%"></div></div>
+    <div class="bar-track"><div class="bar-fill" style="width:${ep}%;background:var(--orange)"></div></div></div></div>`;
+  }).join('');
+}
+
 function likertDist(id,items){
   const el=document.getElementById(id); if(!el) return;
   const colors=['#e8f0f8','#b8d4ec','#64A7DB','#3d7faf','#1F3864'];
@@ -311,21 +360,21 @@ const bp={borderRadius:4,barPercentage:0.58};
 
 // RESUMEN
 mkBar('ch-etapa',['Est. primeros','Est. últimos','Egresada 0–3a','Exp. 3–10a','Lideresas >10a'],
-  [{data:[74,81,95,116,143],backgroundColor:C.blue,...bp}],{grandTotal:N});
+  [{data:[75,81,95,116,144],backgroundColor:C.blue,...bp}],{grandTotal:N});
 mkBar('ch-area',['Industrial','Civil','Eléctrica','Ambiental','Computación','Otras'],
   [{data:[131,123,39,37,8,12],backgroundColor:C.blue,...bp}],{grandTotal:N});
 mkBar('ch-isf',['No conocía','Solo conozco','Aliada','Voluntaria','Ex-participante'],
-  [{data:[283,186,15,9,9],backgroundColor:C.blue,...bp}],{h:true,grandTotal:N});
+  [{data:[283,187,15,9,9],backgroundColor:C.blue,...bp}],{h:true,grandTotal:N});
 mkBar('ch-etapas-impacto',['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
   [{data:[214,209,124,104,70],backgroundColor:C.blue,...bp}],{grandTotal:N});
-donut('ch-interes-all','leg-interes-all',{Sí:353,'Tal vez':140,No:16},[C.lime,C.blue,C.muted]);
-donut('ch-mentorias-all','leg-mentorias-all',{No:294,Sí:215},[C.blue,C.lime]);
-donut('ch-mentora-all','leg-mentora-all',{Sí:281,'Tal vez':192,No:20},[C.lime,C.blue,C.muted]);
+donut('ch-interes-all','leg-interes-all',{Sí:354,'Tal vez':140,No:17},[C.lime,C.blue,C.muted]);
+donut('ch-mentorias-all','leg-mentorias-all',{No:295,Sí:216},[C.blue,C.lime]);
+donut('ch-mentora-all','leg-mentora-all',{Sí:282,'Tal vez':192,No:20},[C.lime,C.blue,C.muted]);
 
 // BARRERAS
 barCompare('dif-compare',
   ['Ambientes masculinizados','Discriminación/sexismo','Falta referentes','Baja confianza','Ejercer liderazgo','Acceso oportunidades'],
-  [3.63,3.12,3.15,3.15,2.86,2.73],
+  [3.63,3.12,3.14,3.14,2.86,2.73],
   [3.51,2.85,3.09,3.35,2.64,2.21]
 );
 likertDist('dif-likert-dist',[
@@ -341,7 +390,7 @@ mkBar('ch-acuerdo',['Ingeniería y desafíos sociales','Paridad en liderazgo'],
    {label:'2',data:[4,13],backgroundColor:'#b8d4ec',...bp},
    {label:'3',data:[46,64],backgroundColor:C.blue,...bp},
    {label:'4',data:[45,57],backgroundColor:'#3d7faf',...bp},
-   {label:'5',data:[404,359],backgroundColor:C.navy,...bp}],
+   {label:'5',data:[406,361],backgroundColor:C.navy,...bp}],
   {legend:true,stacked:true,noPct:true,
    extra:{plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:10,boxWidth:8,boxHeight:8}}}}}
 );
@@ -349,15 +398,15 @@ themes('temas-desm',[
   {tag:'Ambientes hostiles y machismo — 149 respuestas',text:'El más frecuente. Comentarios machistas de compañeros y profesores, "club de chicos" y cuestionamiento constante de capacidades.'},
   {tag:'Maternidad y conciliación — 87 respuestas',text:'Predomina en mujeres mayores. Compatibilizar la carrera con la maternidad y los cuidados sigue siendo una barrera estructural sin respuesta institucional.'},
   {tag:'Aislamiento y falta de red — 85 respuestas',text:'Sentirse sola en la carrera, sin pares ni comunidad de apoyo. En algunos casos las propias compañeras reproducen sesgos.'},
-  {tag:'Falta de confianza e impostor — 85 respuestas',text:'Las mujeres reportan exigirse más que sus pares, dudar de sus capacidades y sentir que deben "demostrar el doble".'},
+  {tag:'Falta de confianza e impostor — 86 respuestas',text:'Las mujeres reportan exigirse más que sus pares, dudar de sus capacidades y sentir que deben "demostrar el doble".'},
   {tag:'Falta de oportunidades y brecha salarial — 74 respuestas',text:'Ascensos, proyectos relevantes y sueldos equivalentes son percibidos como menos accesibles que para hombres con igual o menor experiencia.'},
   {tag:'Falta de referentes femeninas — 62 respuestas',text:'La ausencia de mujeres en cargos de liderazgo y en la academia hace difícil proyectarse profesionalmente.'},
   {tag:'Señal de alerta',cls:'red',text:'Al menos <strong>3 respuestas describen situaciones de acoso o violencia</strong> con protocolos institucionales ineficaces. Considerar módulo de acompañamiento.'}
 ]);
 
 // LIDERAZGO
-const segAllPct=[7,29,104,204,165].map(v=>Math.round(v/N*100));
-const segYoungPct=[3,16,45,79,37].map(v=>Math.round(v/NY*100));
+const segAllPct=[7,29,105,204,166].map(v=>Math.round(v/N*100));
+const segYoungPct=[3,16,46,79,37].map(v=>Math.round(v/NY*100));
 mkBar('ch-seg',['1','2','3','4','5'],
   [{label:'Total (azul)',data:segAllPct,backgroundColor:C.blue,...bp},
    {label:'Joven (verde)',data:segYoungPct,backgroundColor:C.lime,...bp}],
@@ -370,9 +419,9 @@ barCompare('areas-compare',
   100,'%'
 );
 mkBar('ch-apoyo',['Redes contacto','Mentorías ingenieras','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
-  [{data:[414,364,275,251,198],backgroundColor:C.blue,...bp}],{grandTotal:N});
+  [{data:[414,365,276,251,199],backgroundColor:C.blue,...bp}],{grandTotal:N});
 mkBar('ch-exp',['Proyectos reales','Visitas terreno','Red activa','Mentorías 1:1','Talleres prácticos','Pares','Shadowing','Charlas'],
-  [{data:[327,318,275,250,240,223,178,148],backgroundColor:C.blue,...bp}],{h:true,grandTotal:N});
+  [{data:[327,320,275,251,241,224,178,148],backgroundColor:C.blue,...bp}],{h:true,grandTotal:N});
 
 // JOVEN
 themes('temas-joven',[
@@ -387,13 +436,13 @@ barCompare('dif-joven',
   [3.51,3.35,3.09,2.85,2.64,2.21]
 );
 mkBar('ch-etapas-young',['Formación acad.','Sin impacto','Prácticas','Desarrollo prof.','Primer empleo'],
-  [{data:[104,58,22,16,11],backgroundColor:C.lime,...bp}],{grandTotal:NY});
+  [{data:[105,58,22,16,11],backgroundColor:C.lime,...bp}],{grandTotal:NY});
 mkBar('ch-apoyo-young',['Redes contacto','Mentorías','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
-  [{data:[147,132,133,109,83],backgroundColor:C.lime,...bp}],{grandTotal:NY});
+  [{data:[147,133,134,109,84],backgroundColor:C.lime,...bp}],{grandTotal:NY});
 mkBar('ch-exp-young',['Visitas terreno','Proyectos reales','Talleres prácticos','Mentorías 1:1','Pares','Red activa','Shadowing','Charlas'],
-  [{data:[130,128,103,79,73,69,57,45],backgroundColor:C.lime,...bp}],{h:true,grandTotal:NY});
+  [{data:[131,128,104,80,74,69,57,45],backgroundColor:C.lime,...bp}],{h:true,grandTotal:NY});
 mkBar('ch-areas-young',['Comunicación','Confianza/seguridad','Toma decisiones','Gestión proyectos','Res. conflictos','Liderazgo técnico','Trabajo equipo'],
-  [{data:[52,53,57,48,43,39,30],backgroundColor:C.lime,...bp}],
+  [{data:[52,54,57,48,44,40,30],backgroundColor:C.lime,...bp}],
   {h:true,isPct:true,sfx:'%',scales:{x:{max:100,grid:gS,ticks:{...tS,callback:v=>v+'%'},border:bO},y:{grid:gS,ticks:tS,border:bO}}}
 );
 themes('cambio-temas-joven',[
@@ -406,10 +455,10 @@ themes('cambio-temas-joven',[
 
 // PROGRAMA
 const progData={
-  prob:{all:{labels:['1','2','3','4','5'],data:[3,28,129,183,150],n:509},int:{labels:['1','2','3','4','5'],data:[0,3,60,141,149],n:353}},
-  formato:{all:{labels:['Híbrido','Online','Presencial'],data:[325,115,53],n:509},int:{labels:['Híbrido','Online','Presencial'],data:[237,78,38],n:353}},
-  duracion:{all:{labels:['2–3 meses','1 mes','4–6 meses'],data:[272,119,89],n:509},int:{labels:['2–3 meses','1 mes','4–6 meses'],data:[200,76,67],n:353}},
-  barreras:{all:{labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],data:[241,154,59,16],n:509},int:{labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],data:[163,115,41,16],n:353}}
+  prob:{all:{labels:['1','2','3','4','5'],data:[3,28,129,183,150],n:511},int:{labels:['1','2','3','4','5'],data:[0,3,60,141,150],n:353}},
+  formato:{all:{labels:['Híbrido','Online','Presencial'],data:[325,115,54],n:511},int:{labels:['Híbrido','Online','Presencial'],data:[237,78,39],n:354}},
+  duracion:{all:{labels:['2–3 meses','1 mes','4–6 meses'],data:[272,119,90],n:511},int:{labels:['2–3 meses','1 mes','4–6 meses'],data:[200,76,68],n:354}},
+  barreras:{all:{labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],data:[241,155,59,16],n:511},int:{labels:['Falta tiempo','Carga laboral/acad.','Cuidados familiares','Ninguna'],data:[163,116,41,16],n:354}}
 };
 function renderProg(key,seg){
   const d=progData[key][seg];
@@ -427,11 +476,74 @@ themes('temas-cambio',[
   {tag:'Tema 3 · Comunicación y hablar en público — 15 respuestas (total) · 5 jóvenes',text:'"Hablar en público con seguridad", "comunicación efectiva". Módulo concreto con demanda clara.'}
 ]);
 
+// ── ACUERDO TOGGLE ISF ──
+const acuerdoData={
+  total:{ing:{avg:4.63,pct:92.6,dist:[10,4,46,45,406]},par:{avg:4.44,pct:88.8,dist:[16,13,64,57,361]},n:511},
+  conoce:{ing:{avg:4.71,pct:94.2,dist:[3,2,15,17,191]},par:{avg:4.53,pct:90.6,dist:[5,6,21,28,168]},n:228},
+  noconoce:{ing:{avg:4.56,pct:91.2,dist:[7,2,31,28,215]},par:{avg:4.36,pct:87.2,dist:[11,7,43,29,193]},n:283}
+};
+
+function toggleAcuerdo(seg,btn){
+  btn.closest('.toggle-bar').querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const d=acuerdoData[seg];
+  document.getElementById('num-ing').textContent=d.ing.avg;
+  document.getElementById('fill-ing').style.width=d.ing.pct+'%';
+  document.getElementById('num-par').textContent=d.par.avg;
+  document.getElementById('fill-par').style.width=d.par.pct+'%';
+  mkBar('ch-acuerdo',['Ingeniería y desafíos sociales','Paridad en liderazgo'],
+    [{label:'1',data:[d.ing.dist[0],d.par.dist[0]],backgroundColor:'#e8f0f8',...bp},
+     {label:'2',data:[d.ing.dist[1],d.par.dist[1]],backgroundColor:'#b8d4ec',...bp},
+     {label:'3',data:[d.ing.dist[2],d.par.dist[2]],backgroundColor:C.blue,...bp},
+     {label:'4',data:[d.ing.dist[3],d.par.dist[3]],backgroundColor:'#3d7faf',...bp},
+     {label:'5',data:[d.ing.dist[4],d.par.dist[4]],backgroundColor:C.navy,...bp}],
+    {legend:true,stacked:true,noPct:true,
+     extra:{plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:10,boxWidth:8,boxHeight:8}}}}}
+  );
+}
+toggleAcuerdo('total', document.querySelector('.toggle-bar button'));
+
+// ── EXPERIENCIA ──
+themes('temas-exp',[
+  {tag:'Maternidad y conciliación — 73 respuestas',text:'Es la barrera dominante en este segmento, a diferencia de las jóvenes. La carga de cuidados no resuelta sigue limitando el desarrollo profesional incluso con años de experiencia.',cls:'exp'},
+  {tag:'Ambientes hostiles y machismo — 60 respuestas',text:'Persiste también en el ámbito laboral: reuniones donde son ignoradas, menor acceso a proyectos clave, cuestionamiento de autoridad técnica por parte de pares hombres.',cls:'exp'},
+  {tag:'Falta de oportunidades y brecha salarial — 51 respuestas',text:'Más pronunciada que en jóvenes. Con años de experiencia, la brecha de ascenso y remuneración se vuelve visible y concreta.',cls:'exp'},
+  {tag:'Falta de confianza — 33 respuestas',text:'Presente pero menor que en jóvenes. En este segmento la confianza suele ser mayor (seg. 4.20/5), pero aún aparece como barrera especialmente en contextos nuevos.',cls:'exp'},
+  {tag:'Aislamiento y falta de red — 32 respuestas',text:'Menos mencionado que en jóvenes. Sin embargo, el 67% no tuvo acceso a mentorías, lo que muestra una red que se construyó sin apoyo formal.',cls:'exp'}
+]);
+const expBarCompareLabels=['Ambientes masculinizados','Discriminación/sexismo','Falta referentes','Baja confianza','Ejercer liderazgo','Acceso oportunidades'];
+barCompareExp('dif-exp', expBarCompareLabels,
+  [3.63,3.12,3.15,3.15,2.86,2.73],
+  [3.76,3.32,3.22,2.85,2.99,3.02]
+);
+mkBar('ch-etapas-exp',['Desarrollo prof.','Formación acad.','Primer empleo','Prácticas','Sin impacto'],
+  [{data:[178,95,83,62,30],backgroundColor:C.orange,...bp}],{grandTotal:NE});
+
+const segExpPct=[4,7,36,94,115].map(v=>Math.round(v/NE*100));
+const segAllPctExp=[7,29,104,204,165].map(v=>Math.round(v/N*100));
+mkBar('ch-seg-exp',['1','2','3','4','5'],
+  [{label:'Total (azul)',data:segAllPctExp,backgroundColor:C.blue,...bp},
+   {label:'Experiencia (naranja)',data:segExpPct,backgroundColor:C.orange,...bp}],
+  {legend:true,isPct:true,sfx:'%',scales:{x:{grid:gS,ticks:tS,border:bO},y:{max:100,grid:gS,ticks:{...tS,callback:v=>v+'%'},border:bO}}}
+);
+mkBar('ch-apoyo-exp',['Redes contacto','Mentorías ingenieras','Exp. tempranas','Talleres empleab.','Apoyo emocional'],
+  [{data:[203,174,98,105,89],backgroundColor:C.orange,...bp}],{grandTotal:NE});
+mkBar('ch-exp-exp',['Red activa','Proyectos reales','Visitas terreno','Mentorías 1:1','Pares','Talleres prácticos','Shadowing','Charlas'],
+  [{data:[155,144,133,129,114,98,93,86],backgroundColor:C.orange,...bp}],{h:true,grandTotal:NE});
+barCompareExp('areas-exp',
+  ['Comunicación efectiva','Confianza/seguridad','Toma de decisiones','Gestión proyectos','Res. conflictos','Liderazgo técnico','Trabajo en equipo'],
+  [52,48,50,48,44,44,26],
+  [50,41,42,45,44,45,18],
+  100,'%'
+);
+
 function showSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  ['resumen','barreras','liderazgo','joven','programa'].forEach((s,i)=>{if(s===id) document.querySelectorAll('nav button')[i].classList.add('active');});
+  ['resumen','barreras','liderazgo','joven','experiencia','programa'].forEach((s,i)=>{
+    if(s===id) document.querySelectorAll('nav button')[i].classList.add('active');
+  });
 }
 </script>
 </body>
